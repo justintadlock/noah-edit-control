@@ -38,6 +38,8 @@ final class NEC_Meta_Box_Avatars {
 
 		add_action( 'load-post.php',     array( $this, 'load' ) );
 		add_action( 'load-post-new.php', array( $this, 'load' ) );
+
+		add_action( 'save_post', array( $this, 'save' ) );
 	}
 
 	/**
@@ -52,7 +54,7 @@ final class NEC_Meta_Box_Avatars {
 
 		$screen = get_current_screen();
 
-		if ( ! isset( $screen->post_type ) || ! in_array( $screen->post_type, $this->post_types ) )
+		if ( ! in_array( $screen->post_type, $this->post_types ) || ! current_user_can( 'manage_page_contributors' ) )
 			return;
 
 		// Add custom meta boxes.
@@ -112,7 +114,7 @@ final class NEC_Meta_Box_Avatars {
 		<?php foreach ( $users as $user ) : ?>
 
 			<label>
-				<input type="checkbox" value="<?php echo esc_attr( $user->ID ); ?>" name="nec_contributors" <?php checked( in_array( $user->ID, $contributors ) ); ?> />
+				<input type="checkbox" value="<?php echo esc_attr( $user->ID ); ?>" name="nec_contributors[]" <?php checked( in_array( $user->ID, $contributors ) ); ?> />
 
 				<span class="screen-reader-text"><?php echo esc_html( $user->display_name ); ?></span>
 
@@ -125,6 +127,9 @@ final class NEC_Meta_Box_Avatars {
 	<?php }
 
 	public function save( $post_id ) {
+
+		if ( ! current_user_can( 'manage_page_contributors' ) )
+			return;
 
 		// Get the current contributors.
 		$current_roles = nec_get_post_contributors( $post_id );

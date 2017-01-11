@@ -3,7 +3,7 @@
  * Plugin Name: Noah - Edit Control
  * Plugin URI:  http://themehybrid.com
  * Description: Custom plugin to control who can edit posts and pages.
- * Version:     1.0.0
+ * Version:     1.0.0-dev
  * Author:      Justin Tadlock
  * Author URI:  http://themehybrid.com
  * Text Domain: noah-edit-control
@@ -90,6 +90,7 @@ final class Noah_Edit_Control {
 	private function includes() {
 
 		require_once( $this->dir . 'inc/functions-contributors.php' );
+		require_once( $this->dir . 'inc/functions-filters.php'      );
 
 		if ( is_admin() )
 			require_once( $this->dir . 'admin/class-meta-box-avatars.php' );
@@ -103,6 +104,9 @@ final class Noah_Edit_Control {
 	 * @return void
 	 */
 	private function setup_actions() {
+
+		// Register activation hook.
+		register_activation_hook( __FILE__, array( $this, 'activation' ) );
 
 		// Internationalize the text strings used.
 		add_action( 'plugins_loaded', array( $this, 'i18n' ), 2 );
@@ -133,6 +137,28 @@ final class Noah_Edit_Control {
 	public function i18n() {
 
 	//	load_plugin_textdomain( 'avatars-meta-box', false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) ) . 'languages' );
+	}
+
+	/**
+	 * Method that runs only when the plugin is activated.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return void
+	 */
+	public function activation() {
+
+		$roles = array( 'administrator', 'editor' );
+
+		foreach ( $roles as $r ) {
+
+			$role = get_role( $r );
+
+			if ( $role ) {
+				$role->add_cap( 'create_pages' );
+				$role->add_cap( 'manage_page_contributors' );
+			}
+		}
 	}
 }
 
