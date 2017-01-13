@@ -11,10 +11,14 @@ add_filter( 'map_meta_cap', 'nec_map_meta_cap', 10, 4 );
 
 function nec_register_cap_groups() {
 
-	$group = members_get_cap_group( 'type-page' );
+	$page_group = members_get_cap_group( 'type-page' );
+	$user_group = members_get_cap_group( 'user' );
 
-	if ( is_object( $group ) )
-		$group->caps[] = 'manage_page_contributors';
+	if ( is_object( $page_group ) )
+		$page_group->caps[] = 'manage_page_contributors';
+
+	if ( is_object( $user_group ) )
+		$user_group->caps[] = 'manage_user_categories';
 }
 
 /**
