@@ -1,0 +1,49 @@
+# Copyright (C) 2017 Noah - Edit Control
+# This file is distributed under the same license as the Noah - Edit Control package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Noah - Edit Control 1.0.0-dev\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/noah-edit-control\n"
+"POT-Creation-Date: 2017-01-13 23:34:10+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: admin/class-edit-user.php:68 noah-edit-control/admin/class-edit-user.php:68
+msgid "Post Categories"
+msgstr ""
+
+#: admin/class-edit-user.php:73 noah-edit-control/admin/class-edit-user.php:73
+msgid "Select Categories"
+msgstr ""
+
+#: admin/class-edit-user.php:77 noah-edit-control/admin/class-edit-user.php:77
+msgid "Select the categories that the user is limited to posting in."
+msgstr ""
+
+#: admin/class-meta-box-avatars.php:87
+#: noah-edit-control/admin/class-meta-box-avatars.php:87
+msgid "%s Contributors"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Noah - Edit Control"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://themehybrid.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Custom plugin to control who can edit posts and pages."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Justin Tadlock"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://themehybrid.com"
+msgstr ""
