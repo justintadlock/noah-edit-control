@@ -89,11 +89,15 @@ final class Noah_Edit_Control {
 	 */
 	private function includes() {
 
-		require_once( $this->dir . 'inc/functions-contributors.php' );
-		require_once( $this->dir . 'inc/functions-filters.php'      );
+		require_once( $this->dir . 'inc/functions-contributors.php'    );
+		require_once( $this->dir . 'inc/functions-filters.php'         );
+		require_once( $this->dir . 'inc/functions-user-categories.php' );
 
-		if ( is_admin() )
+		if ( is_admin() ) {
 			require_once( $this->dir . 'admin/class-meta-box-avatars.php' );
+			require_once( $this->dir . 'admin/class-edit-post.php'        );
+			require_once( $this->dir . 'admin/class-edit-user.php'        );
+		}
 	}
 
 	/**
@@ -136,7 +140,7 @@ final class Noah_Edit_Control {
 	 */
 	public function i18n() {
 
-	//	load_plugin_textdomain( 'avatars-meta-box', false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) ) . 'languages' );
+		load_plugin_textdomain( 'noah-edit-control', false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) ) . 'languages' );
 	}
 
 	/**
@@ -148,16 +152,21 @@ final class Noah_Edit_Control {
 	 */
 	public function activation() {
 
-		$roles = array( 'administrator', 'editor' );
+		// Get admin and editor roles.
+		$admin  = get_role( 'administrator' );
+		$editor = get_role( 'editor' );
 
-		foreach ( $roles as $r ) {
+		// Add custom caps to administrator.
+		if ( $admin ) {
+			$admin->add_cap( 'create_pages'             );
+			$admin->add_cap( 'manage_page_contributors' );
+			$admin->add_cap( 'manage_user_categories'   );
+		}
 
-			$role = get_role( $r );
-
-			if ( $role ) {
-				$role->add_cap( 'create_pages' );
-				$role->add_cap( 'manage_page_contributors' );
-			}
+		// Add custom caps to editor.
+		if ( $editor ) {
+			$editor->add_cap( 'create_pages'             );
+			$editor->add_cap( 'manage_page_contributors' );
 		}
 	}
 }

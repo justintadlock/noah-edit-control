@@ -1,13 +1,9 @@
 <?php
 /**
- * Handles the author avatars meta box.
+ * Handles the contributor avatars meta box.
  *
- * @package   AvatarsMetaBox
- * @version   1.0.0
+ * @package   NoahEditControl
  * @author    Justin Tadlock <justin@justintadlock.com>
- * @copyright Copyright (c) 2015, Justin Tadlock
- * @link      http://themehybrid.com/plugins/avatars-meta-box
- * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 /**
@@ -39,7 +35,7 @@ final class NEC_Meta_Box_Avatars {
 		add_action( 'load-post.php',     array( $this, 'load' ) );
 		add_action( 'load-post-new.php', array( $this, 'load' ) );
 
-		add_action( 'save_post', array( $this, 'save' ) );
+		add_action( 'save_post', array( $this, 'save' ), 10, 2 );
 	}
 
 	/**
@@ -109,6 +105,8 @@ final class NEC_Meta_Box_Avatars {
 		// Get the users allowed to be post author.
 		$users = get_users( $args ); ?>
 
+		<?php wp_nonce_field( 'nec_post_contrib', 'nec_post_contrib_nonce' ); ?>
+
 		<div class="nec-avatars">
 
 		<?php foreach ( $users as $user ) : ?>
@@ -126,13 +124,31 @@ final class NEC_Meta_Box_Avatars {
 		</div><!-- .nec-avatars -->
 	<?php }
 
-	public function save( $post_id ) {
+	/**
+	 * Saves the post meta.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @param  int     $user_id
+	 * @return void
+	 */
+	public function save( $post_id, $post ) {
 
-		if ( ! current_user_can( 'manage_page_contributors' ) )
+		// Bail if not correct post type.
+		if ( ! in_array( $post->post_type, $this->post_types ) )
+			return;
+
+		// Permissions.
+		$verify_nonce = isset ( $_POST['nec_post_contrib_nonce'] ) ? wp_verify_nonce( $_POST['nec_post_contrib_nonce'], 'nec_post_contrib' ) : false;
+		$can_manage   = current_user_can( 'manage_page_contributors' );
+		$can_edit     = current_user_can( 'edit_post', $post_id );
+
+		// If permissions don't check out, bail.
+		if ( ! $verify_nonce || ! $can_manage || ! $can_edit )
 			return;
 
 		// Get the current contributors.
-		$current_roles = nec_get_post_contributors( $post_id );
+		$current_contributors = nec_get_post_contributors( $post_id );
 
 		// Get the new contributors.
 		$new_contributors = isset( $_POST['nec_contributors'] ) ? $_POST['nec_contributors'] : '';
@@ -144,7 +160,6 @@ final class NEC_Meta_Box_Avatars {
 		// Else, if we have current contributors but no new contributors, delete them all.
 		elseif ( ! empty( $current_contributors ) )
 			nec_delete_post_contributors( $post_id );
-
 	}
 
 	/**
