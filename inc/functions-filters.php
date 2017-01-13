@@ -1,4 +1,10 @@
 <?php
+/**
+ * Custom filters.
+ *
+ * @package   NoahEditControl
+ * @author    Justin Tadlock <justin@justintadlock.com>
+ */
 
 // Add custom caps to Members cap groups.
 add_action( 'members_register_cap_groups', 'nec_register_cap_groups' );
@@ -9,6 +15,14 @@ add_filter( 'register_post_type_args', 'nec_post_type_args', 10, 2 );
 // Custom capability mapping.
 add_filter( 'map_meta_cap', 'nec_map_meta_cap', 10, 4 );
 
+/**
+ * Hooks into `members_register_cap_groups` from the Members plugin and
+ * adds our custom capabilities to the appropriate capability groups.
+ *
+ * @since  1.0.0
+ * @access public
+ * @return void
+ */
 function nec_register_cap_groups() {
 
 	$page_group = members_get_cap_group( 'type-page' );

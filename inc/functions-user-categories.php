@@ -1,4 +1,10 @@
 <?php
+/**
+ * User categories functions.
+ *
+ * @package   NoahEditControl
+ * @author    Justin Tadlock <justin@justintadlock.com>
+ */
 
 /**
  * Returns an array of the contributors for a given post.

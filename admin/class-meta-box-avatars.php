@@ -111,6 +111,12 @@ final class NEC_Meta_Box_Avatars {
 
 		<?php foreach ( $users as $user ) : ?>
 
+			<?php
+			// Double check that the user doesn't have the 'administrator' role.
+			if ( function_exists( 'members_user_has_role' ) && members_user_has_role( $user->ID, 'administrator' ) ) :
+				continue;
+			endif; ?>
+
 			<label>
 				<input type="checkbox" value="<?php echo esc_attr( $user->ID ); ?>" name="nec_contributors[]" <?php checked( in_array( $user->ID, $contributors ) ); ?> />
 
