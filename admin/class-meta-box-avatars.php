@@ -188,7 +188,8 @@ final class NEC_Meta_Box_Avatars {
 			foreach ( $caps as $cap ) {
 
 				// If the role is granted the cap, add it.
-				if ( isset( $role['capabilities'][ $cap ] ) && true === $role['capabilities'][ $cap ] ) {
+				// Don't add administrators (requested feature).
+				if ( 'administrator' !== $name && isset( $role['capabilities'][ $cap ] ) && true === $role['capabilities'][ $cap ] ) {
 					$roles[] = $name;
 					break;
 				}
