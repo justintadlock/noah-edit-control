@@ -3,7 +3,7 @@
  * Plugin Name: Noah - Edit Control
  * Plugin URI:  http://themehybrid.com
  * Description: Custom plugin to control who can edit posts and pages.
- * Version:     1.0.0
+ * Version:     1.1.0
  * Author:      Justin Tadlock
  * Author URI:  http://themehybrid.com
  * Text Domain: noah-edit-control
