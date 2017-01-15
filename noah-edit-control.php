@@ -97,6 +97,7 @@ final class Noah_Edit_Control {
 			require_once( $this->dir . 'admin/class-meta-box-avatars.php' );
 			require_once( $this->dir . 'admin/class-edit-post.php'        );
 			require_once( $this->dir . 'admin/class-edit-user.php'        );
+			require_once( $this->dir . 'admin/class-manage-pages.php'     );
 		}
 	}
 
